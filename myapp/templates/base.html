@@ -1,14 +1,18 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="/static/css/base.css">
-    <title>Doc🏋️‍♀️</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon-16x16.png' %}">
+    <link rel="manifest" href="images/site.webmanifest">
+    <title>SkillGrid</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body>
-    {% load static %}
     <nav class="fixed  w-full flex shadow-lg gap-5 lg:mx-auto">
 
         <!-- mobile view -->
@@ -29,8 +33,9 @@
                 </button>
             </div>
             <div>
-                <a href="#" class="text-3xl text-shadow-lg  text-center font-bold tracking-wider font-sans">
-                    SkillGRID
+                <a href="#" class="flex gap3">
+                    <img height="30px" width="30px" src="{% static 'images/icon_bulb.png' %}" alt="">
+                    <p class="text-3xl text-shadow-lg  text-center font-bold tracking-wider font-sans">SkillGRID</p>
                 </a>
             </div>
             <div class="flex gap-6">
@@ -51,8 +56,10 @@
         <div class="flex w-full flex-col xl:block hidden">
             <div class="flex w-full mt-3  md:gap-6 ml-5 ">
                 <div class="flex flex-row gap-6 mt-4">
-                    <a href="#" class="lg:text-5xl text-shadow-lg text-center font-bold tracking-wider font-sans">
-                        SkillGRID
+
+                    <a href="#" class="flex">
+                        <img height="50px" width="50px" src="{% static 'images/icon_bulb.png' %}" alt="" class="mb-3">
+                        <p class="lg:text-5xl text-shadow-lg text-center font-bold tracking-wider font-sans">SkillGRID</p>
                     </a>
                     <a href="#" class="lg:text-xl hidden lg:block lg:font-light mt-3">
                         Explore

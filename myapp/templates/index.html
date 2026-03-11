@@ -4,7 +4,7 @@
 {% load static %}
 <div class="min-h-screen bg-slate-100">
     <div class="xl:block hidden ">
-        <div class="bg-slate-900 flex md:flex  p-5 justify-center  pb-11 pt-9 text-xl gap-5  text-white ">
+        <div class="bg-slate-900 flex md:flex  p-5 justify-center  pb-11 pt-9 text-lg gap-5  text-white ">
         <a href="" class="hover:text-indigo-400">Devoplopment</a>
         <a href="" class="hover:text-indigo-400">Business</a>
         <a href="" class="hover:text-indigo-400">Finance & Accounting</a>
@@ -32,17 +32,16 @@
                 <div class="text-2xl mb-10 mt-10">
                    <H1>Recommended for you</H1> 
                 </div>
-                <div class="flex">
+                <div class="flex   gap-3" >
                     {% for item in course %}
-                    <div class="flex flex-row">
+                    <div class="flex flex-row h-50  shadow-xl  border w-80">
                         <a href="">
-                        <img src="{{ item.image.url }}" alt="">
-                        {{item.name}}
-                        {{item.instructor.name}}
-                        {{item.rating}}
-                        ${{item.price}} 
-                    </div>
-                        
+                        <img class="h-50  w-80" src="{{ item.image.url }}" alt="">
+                        <H1>{{item.name}}</H1>
+                        <H2>{{item.instructor.name}}</H2>
+                        <H3>{{item.rating}}</H3>
+                        <H3>${{item.price}}</H3>                        
+                    </div>                        
                     </a>
                     {% endfor %}
                 </div>

@@ -1,54 +1,139 @@
-<!-- installed tw elements for curousel-->
+
 {% extends 'base.html' %}
 {% block body %}
 {% load static %}
-<div class="min-h-screen bg-slate-100">
+<div class="bg-teal-100">
     <div class="xl:block hidden ">
-        <div class="bg-slate-900 flex md:flex  p-5 justify-center  pb-11 pt-9 text-lg gap-5  text-white ">
-        <a href="" class="hover:text-indigo-400">Devoplopment</a>
-        <a href="" class="hover:text-indigo-400">Business</a>
-        <a href="" class="hover:text-indigo-400">Finance & Accounting</a>
-        <a href="" class="hover:text-indigo-400">IT & Software</a>
-        <a href="" class="hover:text-indigo-400">Office Productivity</a>
-    </div>
-    </div>
-    
-    <div class="flex ml-12 mt-7 mr-15">
-        <div class="flex flex-col w-full">
-            <div class="flex ">
-                <div>
-                    <img height="60px" width="60px" src="/static/images/user-image.png" alt="" class="mt-2">
-                </div>
-                <div>
-                    <H1 class="text-2xl font-bold ml-5 mb-2  mt-5" >Welcome back, username</H1> 
-                </div>       
-            </div> 
-            <div class="">
-                <div class="text-2xl mb-10 mt-10">
-                   <H1>Recommended for you</H1> 
-                </div>
-                {% for item in course %}
-                <a href="{% url 'myapp:detail' item.id %}"><
-                <div class="flex shadow-xl  gap-6" >
-                    
-                    <div class="flex ">
-                        <img class="" src="{{ item.image.url }}" alt="">
-                        <H1>{{item.name}}</H1>
-                        <H2>{{item.instructor.name}}</H2>
-                        <H3>{{item.rating}}</H3>
-                        <H3>${{item.price}}</H3>                        
-                    </div>                        
-                </div>
-                </a>
-                {% endfor %}
-                <div>
-                    
-                </div>
-            </div>  
-            
+        <div class="bg-slate-900 flex md:flex  p-5 justify-center  pb-109 pt-9 text-lg gap-5  text-white ">
+            <a href="" class="hover:text-indigo-400">Devoplopment</a>
+            <a href="" class="hover:text-indigo-400">Business</a>
+            <a href="" class="hover:text-indigo-400">Finance & Accounting</a>
+            <a href="" class="hover:text-indigo-400">IT & Software</a>
+            <a href="" class="hover:text-indigo-400">Office Productivity</a>
         </div>
     </div>
+    <div class=" ml-12 mt-7 mr-16">
+        <div class="flex m-3"> 
+            <div>
+                <img height="60px" width="60px" src="/static/images/user-image.png" alt="">
+            </div>
+            <div class="flex items-center pl-5 text-2xl font-bold">
+                <H1 class="">Welcome back, <span class="animate-bounce font-extrabold italic text-indigo-400">username</span></H1>
+            </div>
+        </div>
+        <div id="default-carousel" class="relative mt-10" data-carousel="slide">
+            <div class="relative  overflow-hidden rounded-lg md:h-[500px]">
+                <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                    <img src="/static/images/1.png" class="absolute h-full block  w-full  object-cover" alt="...">
+                </div>
+                <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                    <img src="/static/images/2.png" class="absolute block h-full w-full object-cover" alt="...">
+                </div>
+                <div class="hidden duration-700 ease-in-out" data-carousel-item>                                
+                    <img src="/static/images/3.png"     class="absolute block h-full w-full object-cover" alt="...">
+                </div>        
+            </div>
+        </div>
+        <div>
+            <div class="mt-6 mb-6">
+                <H1 class="text-2xl font-bold">Recomended for you</H1>
+            </div>
+        </div>
+        <div class="flex flex-row">
+            {% for item in course %}
+            <a href="{% url 'myapp:detail' item.id %}">
+            <div class="flex mr-6 rounded-2xl gap-2 text-white shadow-lg flex-col hover:bg-neutral-secondary-medium bg-slate-700 p-8 justify-between">
+                <img class="rounded-xl object-fit " src="{{item.image.url}}" alt="">  
+                    <H1 class="text-md font-bold">{{item.name}}</H1>
+                    <H1 class="text-xs font-bold">{{item.instructor}}</H1>
+                    <H1 class="text-2xl text-green-300 font-bold">${{item.price}}</H1>
+                    <H1 class="font-bold text-yellow-300 text-lg">⭐{{item.rating}}</H1>
+                    
+                    <div class="flex justify-center pt-2 gap-4">
+                        <button class="inline-flex items-center text-white font-bold text-sm bg-indigo-400 rounded-xl p-2 ">Premium</button>
+                        <button class="bg-blue-300 p-2 font-bold text-sm rounded-xl">bestseller</button>
+                    </div>      
+            </div>
+            </a>  
+            {% endfor %}
+        </div>
+        <div>
+            <div class="mt-6 mb-6">
+                <H1 class="text-2xl font-bold">Trending courses</H1>
+            </div>
+        </div>
+        <div class="flex flex-row">
+            {% for item in course %}
+            <a href="{% url 'myapp:detail' item.id %}">
+            <div class="flex mr-6 rounded-2xl gap-2 text-white shadow-lg flex-col hover:bg-neutral-secondary-medium bg-slate-700 p-8 justify-between">
+                <img class="rounded-xl object-fit " src="{{item.image.url}}" alt="">  
+                    <H1 class="text-md font-bold">{{item.name}}</H1>
+                    <H1 class="text-xs font-bold">{{item.instructor}}</H1>
+                    <H1 class="text-2xl text-green-300 font-bold">${{item.price}}</H1>
+                    <H1 class="font-bold text-yellow-300 text-lg">⭐{{item.rating}}</H1>
+                    
+                    <div class="flex justify-center pt-2 gap-4">
+                        <button class="inline-flex items-center text-white font-bold text-sm bg-indigo-400 rounded-xl p-2 ">Premium</button>
+                        <button class="bg-blue-300 p-2 font-bold text-sm rounded-xl">bestseller</button>
+                    </div>      
+            </div>
+            </a>  
+            {% endfor %}
+        </div>
+        <div>
+            <div class="mt-6 mb-6">
+                <H1 class="text-2xl font-bold">Web development courses</H1>
+            </div>
+        </div>
+        <div class="flex flex-row">
+            {% for item in course %}
+            <a href="{% url 'myapp:detail' item.id %}">
+            <div class="flex mr-6 rounded-2xl gap-2 text-white shadow-lg flex-col hover:bg-neutral-secondary-medium bg-slate-700 p-8 justify-between">
+                <img class="rounded-xl object-fit " src="{{item.image.url}}" alt="">  
+                    <H1 class="text-md font-bold">{{item.name}}</H1>
+                    <H1 class="text-xs font-bold">{{item.instructor}}</H1>
+                    <H1 class="text-2xl text-green-300 font-bold">${{item.price}}</H1>
+                    <H1 class="font-bold text-yellow-300 text-lg">⭐{{item.rating}}</H1>
+                    
+                    <div class="flex justify-center pt-2 gap-4">
+                        <button class="inline-flex items-center text-white font-bold text-sm bg-indigo-400 rounded-xl p-2 ">Premium</button>
+                        <button class="bg-blue-300 p-2 font-bold text-sm rounded-xl">bestseller</button>
+                    </div>      
+            </div>
+            </a>  
+            {% endfor %}
+        </div>
+        <div>
+            <div class="mt-6 mb-6">
+                <H1 class="text-2xl font-bold">AI courses</H1>
+            </div>
+        </div>
+        <div class="flex flex-row">
+            {% for item in course %}
+            <a href="{% url 'myapp:detail' item.id %}">
+            <div class="flex mr-6 rounded-2xl gap-2 text-white shadow-lg flex-col hover:bg-neutral-secondary-medium bg-slate-700 p-8 justify-between">
+                <img class="rounded-xl object-fit " src="{{item.image.url}}" alt="">  
+                    <H1 class="text-md font-bold">{{item.name}}</H1>
+                    <H1 class="text-xs font-bold">{{item.instructor}}</H1>
+                    <H1 class="text-2xl text-green-300 font-bold">${{item.price}}</H1>
+                    <H1 class="font-bold text-yellow-300 text-lg">⭐{{item.rating}}</H1>
+                    
+                    <div class="flex justify-center pt-2 gap-4">
+                        <button class="inline-flex items-center text-white font-bold text-sm bg-indigo-400 rounded-xl p-2 ">Premium</button>
+                        <button class="bg-blue-300 p-2 font-bold text-sm rounded-xl">bestseller</button>
+                    </div>      
+            </div>
+            </a>  
+            {% endfor %}
+        </div>
+        <div class="flex justify-center mt-10">
+            <div class="">
+                <a class="bg-blue-500 p-5 font-bold rounded-xl shadow-lg cursor-pointer">Explore more</a>
+            </div>
+        </div>
+        
+    </div>
+</div>              
 
-</div>
     
 {% endblock %}

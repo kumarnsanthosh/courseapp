@@ -4,7 +4,7 @@ from .models import *
 
 
 def index(request):
-    course  = Course.objects.all()
+    course  = Course.objects.all()[:4]
     return render(request, 'index.html',{'course': course})
 
 

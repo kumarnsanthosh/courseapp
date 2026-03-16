@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.core.validators import FileExtensionValidator
 # Create your models here.
 
 
@@ -28,7 +28,7 @@ class Course(models.Model):
 
     name        =  models.CharField(max_length=100)
     image       =  models.ImageField(upload_to='static/images/course_images')
-    video       =  models.CharField(max_length=1000, default='video-link')
+    video       =  models.FileField(upload_to='static/video_upload', null=True, validators= [FileExtensionValidator(allowed_extensions=['MOV','avi','mp4','webm','mkv'])])
     instructor  =  models.ForeignKey(Instructor, on_delete=models.CASCADE)
     category    =  models.ForeignKey(SubCategory, on_delete=models.CASCADE, null=True)
     description =  models.TextField()

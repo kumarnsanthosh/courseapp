@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% block body %}
 <div class="min-h-screen">
-    <form method="POST">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <div class="bg-white">
+        <div class="">
             <div class="flex">
                 <label class="block mb-1">Course name</label>
                 <p>{{ form.name }}</p>

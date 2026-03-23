@@ -48,7 +48,9 @@
                 <a href="{% url 'user:logout' %}" class="">
                 <div class="  flex items-center mt-4 mr-7">
                         <img height="45" width="45" src="{% static 'images/admin.png' %}" alt="">
-                        <h1 class="text-white"</h1>   
+                        <a href="{% url 'myapp:instructor' %}" class="hidden xl:block  hover:text-indigo-400">Instructor</a>
+                        <a href="" class=" hover:text-indigo-400">My learning</a>
+                        <h1 class="text-white"></h1>   
                 </div>
                 </a>
                 {% elif user.is_authenticated %}

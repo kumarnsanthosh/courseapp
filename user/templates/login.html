@@ -44,17 +44,6 @@
                         placeholder="Enter your password"
                     >
                 </div>
-
-                
-                {% if form.non_field_errors %}
-                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg text-sm">
-                        {% for error in form.non_field_errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-
-     
                 <button 
                     type="submit" 
                     class="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-400"

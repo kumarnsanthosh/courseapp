@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from myapp.views import index
 from .form import RegisterForm, ProfileForm
 from .models import Student
+from dashboard.models import Activity
 # Create your views here.
 
 
@@ -23,7 +24,10 @@ def register(request):
     form = RegisterForm(request.POST)
     if request.method == 'POST':
         if form.is_valid():
-            form.save()
+            user = form.save()
+            Activity.objects.create(user=user.username , 
+                                    action=f"User '{user.username}' registered")
+            return redirect('user:login')
     else:
         form = RegisterForm()
     return render(request, 'register.html',  {'form':form})
@@ -40,7 +44,11 @@ def update_profile(request):
     if request.method == 'POST':
         form = ProfileForm(request.POST, request.FILES, instance=student)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            Activity.objects.create(
+                user=user.username,
+                action=f"User '{user.username}' updated profile"
+            )
             return redirect('user:profile')
     else:
         form = ProfileForm(instance=student)

@@ -2,14 +2,15 @@
 {% load static %}
 {% block body %}
 <div class="bg-aqua-400 p-5 shadow-2xl rounded-2xl">
-            <div class="mt-6 mb-6">
+            <div class="flex justify-between  mt-6 mb-6">
                 <H1 class="text-2xl font-bold ">All courses</H1>
-                <hr class="mt-2 border-t-4 border-gray-800">
+                <a href="" class="bg-blue items-center text-xs flex px-2 rounded-lg bg-blue-400">Create course</a>
             </div>
+            <hr class="mt-2 border border-gray-800">
             <div class="grid grid-cols-2 m gap-6 mt-4 md:grid-cols-3 lg:grid-cols-4">
             {% for item in course %}
             <a href="{% url 'dashboard:view_course' item.id %}">
-            <div class="flex mr-6 rounded-2xl gap-2 text-black bg-slate-900 shadow-xl flex-col hover:bg-neutral-secondary-medium  p-6 justify-between">
+            <div class="flex mr-6 rounded-2xl gap-2 text-black bg-white shadow-xl flex-col hover:bg-neutral-secondary-medium  p-6 justify-between">
                 {% if item.image %}
                 <img class="rounded-xl object-fit " src="{{item.image.url}}" alt="">  
                 {% else %}
@@ -17,8 +18,8 @@
                     <span class="text-gray-400 text-sm">No Image</span>
                 </div>
                 {% endif %}
-                    <H1 class="text-md line-clamp-2 min-h-[50px] text-white font-semibold">{{item.name}}</H1>
-                    <H1 class="text-xs text-white font-bold">{{item.instructor.name}}</H1>
+                    <H1 class="text-md line-clamp-2 min-h-[50px]  font-semibold">{{item.name}}</H1>
+                    <H1 class="text-xs  font-bold">{{item.instructor.name}}</H1>
                     <div class="flex">
                         <span class="text-lg flex font-medium text-green-300 text-heading line-through">₹{{ item.discount_amount }}/-</span><span class="ms-3 text-lg text-green-400 font-medium text-heading">₹{{ item.sell_price }}/-</span>
                     </div>

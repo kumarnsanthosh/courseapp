@@ -3,7 +3,7 @@ from .models import *
 from .forms import  CourseForm
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
-
+from dashboard.models import Activity
 
 # Create your views here.
 
@@ -44,9 +44,11 @@ def create_course(request):
                 Instructor.objects.create(user=request.user)
             course.instructor = request.user.instructor
             course.save()
+            Activity.objects.create(
+                user=request.user,
+                action=f"Course '{course.name}' created"
+            )
             return redirect('myapp:instructor')
-        else:
-            print(form.errors)
     else:
         form = CourseForm()
     return render(request, 'create_course.html', {'form':form})
@@ -54,16 +56,17 @@ def create_course(request):
 
 def update_course(request, id):
     course = get_object_or_404(Course, id=id)
-    # 🔒 Security: only owner can edit
     if not course.instructor.user or course.instructor.user != request.user:
         return redirect('myapp:instructor')
     form = CourseForm(request.POST or None, request.FILES or None, instance=course)
     if request.method == 'POST':
         if form.is_valid():
             form.save()
+            Activity.objects.create(
+                user=request.user,
+                action=f"Course '{course.name}' updated"
+            )
             return redirect('myapp:instructor')
-        else:
-            print(form.errors)
     return render(request, 'update_course.html', {'form': form, 'course': course})
 
 def view_course(request):
@@ -72,12 +75,16 @@ def view_course(request):
 def delete_course(request, id):
     course = get_object_or_404(Course, id=id)
 
-    # 🔒 Security: only owner can delete
     if not hasattr(request.user, 'instructor') or course.instructor.user != request.user:
         return redirect('myapp:instructor')
 
     if request.method == 'POST':
+        name = course.name
         course.delete()
+        Activity.objects.create(
+        user=request.user,
+        action=f"Course '{name}' deleted"
+    )
         return redirect('myapp:instructor')
 
     return render(request, 'delete_course.html', {'course': course})
@@ -163,13 +170,22 @@ def view_cart(request):
 def add_to_cart(request, course_id):
     course = get_object_or_404(Course, id=course_id)
     cart_item, created = Cart.objects.get_or_create(user=request.user, course=course)
+    Activity.objects.create(
+        user=request.user,
+        action=f"Added '{course.title}' to cart"
+    )
     return redirect('myapp:view_cart')
 
 
 @login_required
 def remove_from_cart(request, cart_id):
     cart_item = get_object_or_404(Cart, id=cart_id, user=request.user)
+    course_name = cart_item.course.title
     cart_item.delete()
+    Activity.objects.create(
+        user=request.user,
+        action=f"Removed '{course_name}' from cart"
+    )
     return redirect('myapp:view_cart')
 
 

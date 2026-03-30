@@ -4,6 +4,9 @@ from myapp.forms import InstructorForm
 from user.models import *
 from django.contrib.auth.decorators import login_required
 from django.db.models import Avg
+from .models import Activity
+from myapp.forms import  CourseForm
+from django.shortcuts import get_object_or_404
 # Create your views here.
 
 
@@ -15,6 +18,7 @@ def admin_dashboard(request):
     avg_rating = Course.objects.aggregate(avg=Avg('rating'))['avg']
     overall_platform_quality = round(avg_rating,1)
     top_courses = Course.objects.order_by('-rating')[:12] 
+    
     context = {
         'total_students': Student.objects.count(),
         'total_courses': Course.objects.count(),
@@ -22,6 +26,8 @@ def admin_dashboard(request):
         'overall_platform_quality':overall_platform_quality,
         'total_revenue' : sum(course.sell_price for course in Course.objects.all()),
         'top_courses' : top_courses,
+        'activities': Activity.objects.all().order_by('-created_at')[:5]
+
 
     }
 
@@ -34,26 +40,51 @@ def all_courses(request):
     course = Course.objects.all()
     return render(request, 'all_courses.html', {'course': course})
 
+def creat_course(request):
+    form = CourseForm(request.POST, request.FILES or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            Activity.objects.create(
+                user=request.user.username,
+                action=f"Course '{form.name}' created"
+            )
+            return redirect('dashboard:all_courses')
+        else:
+            print(form.errors)
+    else:
+        form = CourseForm()
+    return render(request, 'admin_create_course.html', {'form':form})
+    
+
 @login_required
 def view_course(request, id):
     if not request.user.is_superuser:
         return redirect('home')  # restrict access
     course = Course.objects.get(id=id)
-    return render(request, 'admin_detail.html', {'course': course})
+    return render(request, 'admin_course_detail.html', {'course': course})
 
 
 @login_required
 def update_course(request, id):
-    if not request.user.is_superuser:
-        return redirect('home')  # restrict access
-    course = Course.objects.get(id=id)
-    return render(request, 'admin_update_course.html', {'course': course})
+    course = get_object_or_404(Course, id=id)
+    form = CourseForm(request.POST or None, request.FILES or None, instance=course)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            Activity.objects.create(
+                user=request.user,
+                action=f"Course '{course.name}' updated"
+            )
+            return redirect('myapp:instructor')
+    return render(request, 'update_course.html', {'form': form, 'course': course})
 
 @login_required
 def delete_course(request, id):
-    if not request.user.is_superuser:
-        return redirect('home')  # restrict access
     course = Course.objects.get(id=id)
+    if request.method == 'POST':
+        course.delete()
+        return redirect('dashboard:all_courses')
     return render(request, 'delete_course.html', {'course': course})
 
 
@@ -78,30 +109,20 @@ def view_instructor(request, id):
 
 @login_required
 def update_instructor(request, id):
-    if not request.user.is_superuser:
-        return redirect('home')  # restrict access
     instructor = Instructor.objects.get(id=id)
     form = InstructorForm(request.POST or None, request.FILES or None, instance=instructor)
     
     if request.method == 'POST':
         if form.is_valid():
             form.save()
-            return redirect('dashboard:view_instructor', id=instructor.id)
-        else:
-            print(form.errors)  # For debugging
+            return redirect('dashboard:all_course')
     
-    courses = instructor.courses.all()
-    context = {
-        'instructor': instructor,
-        'courses': courses,
-        'form': form
-    }
-    return render(request, 'update_instructor.html', context)
+    else:
+        form = InstructorForm()
+    return render(request, 'update_instructor.html', {'course': form})
 
 @login_required
 def delete_instructor(request, id):
-    if not request.user.is_superuser:
-        return redirect('home')  # restrict access
     instructor = Instructor.objects.get(id=id)
     if request.method == 'POST':
         instructor.delete()
@@ -114,12 +135,3 @@ def delete_instructor(request, id):
     return render(request, 'delete_instructor.html', context)
 
 
-def index(request):
-    data_points = [
-        { "label": "apple",  "y": 10  },
-        { "label": "orange", "y": 15  },
-        { "label": "banana", "y": 25  },
-        { "label": "mango",  "y": 30  },
-        { "label": "grape",  "y": 28  }
-    ]
-    return render(request, 'admin_dashboard.html', { "data_points" : data_points }) 

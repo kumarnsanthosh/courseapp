@@ -78,11 +78,8 @@
         </div>
         {% if user.is_superuser %}
         
-        <div class="  flex  mr-10 py-3">
-            <a href="{% url 'dashboard:admin_dashboard' %}"><img height="55" width="55" src="{% static 'images/admin.png' %}" alt=""></a>
-            <a href="{% url 'myapp:become_instructor' %}" class="hidden xl:block  hover:text-indigo-400">Instructor</a>
-            <a href="" class="hover:text-indigo-400 hidden xl:block">My learning</a>
-            <h1 class="text-white"></h1>   
+        <div class="  flex text-center items-center  mr-10 py-3">
+            <a href="{% url 'dashboard:admin_dashboard' %}"><img height="55" width="55" src="{% static 'images/admin.png' %}" alt=""><h1 class="text-blue-400">Admin</h1></a>
         </div>
         {% elif user.is_authenticated %}
         <div class="hidden lg:flex  gap-6  lg:justify-between lg:items-center text-md font-bold">
